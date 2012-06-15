@@ -12,7 +12,9 @@ The challenge starts on 15th June, 5pm GMT, and finishes 15th July, 5pm GMT.
 
 #### Theme:
 
-The theme will be picked out using [videogamena.me](http://videogamena.me/) before the contest start, and announced here.
+The theme will be picked out using [videogamena.me](http://videogamena.me/) before the contest start (by yours truly, @hughfdjackson), and announced here.
+
+**N.B: The first non-adult-ish theme**
 
 ## Rules
 
