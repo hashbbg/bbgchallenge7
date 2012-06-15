@@ -12,9 +12,12 @@ The challenge starts on 15th June, 5pm GMT, and finishes 15th July, 5pm GMT.
 
 #### Theme:
 
-The theme will be picked out using [videogamena.me](http://videogamena.me/) before the contest start (by yours truly, @hughfdjackson), and announced here.
+The theme for the contest is:
 
-**N.B: The first non-adult-ish theme**
+
+***Street Dinosaur Freak***
+
+Picked randomly using [videogamena.me](http://videogamena.me/).
 
 ## Rules
 
