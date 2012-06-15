@@ -4,6 +4,8 @@
 
 If you have an itch to work with friends, then feel free to team up and submit a team entry.  Every member has 12 hours, and the size of your team has to be disclosed with your submission.
 
+If you really want to, you can make as many games as you like; so long as you obey the time-limit per game. 
+
 Entry's repos will be merged with this one, too, so feel free to have a look at anyone's source code after the fact.  
 
 #### Dates!
