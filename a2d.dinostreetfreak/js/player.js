@@ -15,7 +15,7 @@ game.Player = function(pos) {
 	fixDef.restitution = 0.2;	
 	bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 	fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape;
-	fixDef.shape.SetAsBox(3.2, 3.2);
+	fixDef.shape.SetAsBox(3.0, 3.0);
 	bodyDef.position.Set(pPos.x, pPos.y);
 	bodyDef.allowSleep = false;
 	body = game.world.CreateBody(bodyDef);
@@ -29,9 +29,24 @@ game.Player = function(pos) {
 		$draw();
 	};
 
-	this.right = function() {
-		var f = new Box2D.Common.Math.b2Vec2(500, 0);
+	this.jump = function() {
+		//body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
+		var f = new Box2D.Common.Math.b2Vec2(150, -500);	
+		body.ApplyImpulse(f, body.GetPosition());
+	};
+
+	this.left = function() {
+		var f = new Box2D.Common.Math.b2Vec2(-50, 0);	
 		//body.SetLinearVelocity(f);
 		body.ApplyImpulse(f, body.GetPosition());
+	};
+	this.right = function() {
+		var f = new Box2D.Common.Math.b2Vec2(50, 0);			
+		//body.SetLinearVelocity(f);
+		body.ApplyImpulse(f, body.GetPosition());
+	};
+	this.stop = function() {
+		var f = new Box2D.Common.Math.b2Vec2(0, 0);			
+		//body.SetLinearVelocity(f);
 	};
 };

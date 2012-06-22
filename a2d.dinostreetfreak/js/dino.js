@@ -62,14 +62,23 @@ var game = {
 			console.log(game.level.getTiles());
 		})
 
-		document.addEventListener("keydown", function() {
+		document.addEventListener("keydown", function(e) {
 			//game.player.right = true;
-			game.player.right();
+			switch(e.keyCode) {
+				case a2d.key.ARROW_LEFT:
+					game.player.left();
+				break;
+				case a2d.key.ARROW_RIGHT:
+					game.player.right();
+				break
+				case a2d.key.SPACE:
+					game.player.jump();
+				break;
+			}						
 		});
 
-		document.addEventListener("keyup", function() {
-			//game.player.right = false;
-			//game.player.stop();
+		document.addEventListener("keyup", function() {			
+			game.player.stop();
 		});		
 		/*a2d.canvas.addEventListener("click", function(e) {
 		game.level.push(new game.Player(new a2d.Position(e.clientX, e.clientY)));
