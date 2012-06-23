@@ -40,7 +40,7 @@ game.Player = function(pos) {
 	this.jump = function() {
 		//body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
 		if(self.isGrounded()) {
-			var f = new Box2D.Common.Math.b2Vec2(0, -500);	
+			var f = new Box2D.Common.Math.b2Vec2(0, -600);	
 			body.ApplyImpulse(f, body.GetPosition());
 		}
 	};
