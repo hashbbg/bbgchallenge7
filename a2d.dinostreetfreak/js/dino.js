@@ -106,6 +106,13 @@ window.onload = function() {
 	a2d.on("draw", function() {
 		if(game.world) {
 			game.world.Step(1/60, 10, 10);
+			if(game.player) {
+				var p = game.player.position.clone();
+				p.X -= a2d.dimension.Width / 2;
+				p.Y -= a2d.dimension.Height / 2;
+				p.scale(new a2d.Position(-1, -1));				
+				game.level.offset = p;
+			}			
 		}
 	});
 
