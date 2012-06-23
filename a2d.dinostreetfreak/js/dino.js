@@ -17,28 +17,39 @@ var game = {
 		//loading level data
 		game.get("data/level.dst?" + Math.random(), function(data) {
 			var lines = data.split("\n");
-			var level = {};
+			var level = {}, city = {};
 			level.gridSize = [lines[lines.length -1].length, lines.length];
 			level.tileSize = [64, 64];
 			level.tileSet = "tiles";
 			level.tiles = [];
+			game.level = new a2d.TileGrid();
 			for(var x = 0; x < level.gridSize[0]; x++) {
 				for(var y = 0; y < level.gridSize[1]; y++) {
 					console.log(lines[y][x]);
 					if(lines[y].length > x) {
-						level.tiles.push(lines[y][x] === "-" ? 0 : -1);						
+						level.tiles.push(lines[y][x] === "-" ? 0 : -1);
+						if(lines[y][x] === 'h') {
+							//level.tiles[level.tiles.length -1].meat = true;							
+							game.level.push(new game.Meat(new a2d.Position(x * 64 + parseInt(64 / 2, 10), y * 64 + parseInt(64 / 2, 10))));
+						}						
 					} else {
 						level.tiles.push(-1);
 					}					
 				}
 			}
+
 			for(var x = 0; x < level.gridSize[0]; x++) {
 				for(var y = 0; y < level.gridSize[1]; y++) {
 					level.tiles.push(-1);
 				}
 			}
-			game.level = new a2d.TileGrid(level);
+			game.level.setData(level);
 
+			city.gridSize = [4, 1];
+			city.tileSize = [1240, 768];
+			city.tileSet = "city";
+			city.tiles = [0, 0, 0, 0];
+			game.city = new a2d.TileGrid(city);
 			//create physics boxes for each tile in grid
 			var tiles = game.level.getTiles(),
 				pos = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -56,6 +67,7 @@ var game = {
 					}
 				}
 			}
+			a2d.root.push(game.city);
 			a2d.root.push(game.level);
 			game.player = new game.Player(new a2d.Position(100, 120));
 			game.level.push(game.player);
@@ -107,15 +119,21 @@ window.onload = function() {
 		if(game.world) {
 			game.world.Step(0.12, 10, 10);
 			if(game.player) {
-				var p = game.player.position.clone();
+				var p = game.player.position.clone(),
+					parallax;
 				p.X -= a2d.dimension.Width / 2;
 				p.Y -= a2d.dimension.Height / 2;
 				p.scale(new a2d.Position(-1, -1));				
 				game.level.offset = p;
+				parallax = p.clone();
+				parallax.divide(new a2d.Position(2, 2));
+				game.city.offset = parallax;
 			}			
 		}
 	});
 
 	a2d.load({	"dino" : "images/dinosaur.png",
-				"tiles": "images/tiles.png" });
+				"tiles": "images/tiles.png",
+				"meat" : "images/meat.png",
+				"city" : "images/bg.jpg" });
 }
