@@ -23,9 +23,10 @@ game.Player = function(pos) {
 	body = game.world.CreateBody(bodyDef);
 	body.CreateFixture(fixDef);
 
+	this.fps = 4;
+
 	this.isGrounded = function() {
-		var cl = body.GetContactList();
-		console.log(cl);
+		var cl = body.GetContactList();	
 		return cl != null;
 	};
 
@@ -35,6 +36,7 @@ game.Player = function(pos) {
 		this.position.Y = pPos.Y;
 		//this.angle = body.GetAngle();
 		$draw();
+		console.log(self.tile);
 	};
 
 	this.jump = function() {
@@ -42,6 +44,7 @@ game.Player = function(pos) {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(0, -600);	
 			body.ApplyImpulse(f, body.GetPosition());
+			a2d.resources.jump.play();
 		}
 	};
 
@@ -49,13 +52,16 @@ game.Player = function(pos) {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(-10, 0);	
 			body.SetLinearVelocity(f);
-		}
+			self.frameLoop(new a2d.Vector(0, 2), true);
+		}		
 		//body.ApplyImpulse(f, body.GetPosition());
 	};
 	this.right = function() {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(10, 0);			
 			body.SetLinearVelocity(f);
+			self.frameLoop(new a2d.Vector(0, 2), true);
+			//self.setTile(3);
 		}
 		//body.ApplyImpulse(f, body.GetPosition());
 	};
