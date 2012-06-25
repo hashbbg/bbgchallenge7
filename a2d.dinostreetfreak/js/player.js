@@ -4,8 +4,8 @@ game.Player = function(pos) {
 		fixDef = new Box2D.Dynamics.b2FixtureDef,
 		bodyDef = new Box2D.Dynamics.b2BodyDef,
 		body = null,
-		$draw = this.draw.bind(this);
-
+		$draw = this.draw.bind(this),
+		walkcycle = new a2d.Vector(0, 2);
 	//constructor body
 	this.position = pos;
 	pPos = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -36,7 +36,7 @@ game.Player = function(pos) {
 		this.position.Y = pPos.Y;
 		//this.angle = body.GetAngle();
 		$draw();
-		console.log(self.tile);
+		//console.log(self.tile);
 	};
 
 	this.jump = function() {
@@ -52,7 +52,7 @@ game.Player = function(pos) {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(-10, 0);	
 			body.SetLinearVelocity(f);
-			self.frameLoop(new a2d.Vector(0, 2), true);
+			self.frameLoop(walkcycle, true);
 		}		
 		//body.ApplyImpulse(f, body.GetPosition());
 	};
@@ -60,7 +60,7 @@ game.Player = function(pos) {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(10, 0);			
 			body.SetLinearVelocity(f);
-			self.frameLoop(new a2d.Vector(0, 2), true);
+			self.frameLoop(walkcycle, true);
 			//self.setTile(3);
 		}
 		//body.ApplyImpulse(f, body.GetPosition());

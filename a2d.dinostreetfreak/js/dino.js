@@ -4,6 +4,46 @@ Box2D.Common.Math.b2Vec2.prototype.__defineGetter__("Y", function() { return thi
 Box2D.Common.Math.b2Vec2.prototype.__defineSetter__("X", function(x) { this.x = x / 10; });
 Box2D.Common.Math.b2Vec2.prototype.__defineSetter__("Y", function(y) { this.y = y / 10; });
 
+function fixedFromCharCode (codePt) {  
+    if (codePt > 0xFFFF) {  
+        codePt -= 0x10000;  
+        return String.fromCharCode(0xD800 + (codePt >> 10), 0xDC00 +  
+(codePt & 0x3FF));  
+    }  
+    else {  
+        return String.fromCharCode(codePt);  
+    }  
+}  
+
+var icon = {
+	home   : fixedFromCharCode(0x2302),
+	pause  : fixedFromCharCode(0x2389),
+	up     : fixedFromCharCode(0x25b4),
+	play   : fixedFromCharCode(0x25b6),
+	right  : fixedFromCharCode(0x25b8),
+	down   : fixedFromCharCode(0x25be),
+	left   : fixedFromCharCode(0x26c2),
+	star   : fixedFromCharCode(0x2605),
+	heart  : fixedFromCharCode(0xe800),
+	attention: fixedFromCharCode(0x26a0),
+	mail   : fixedFromCharCode(0x2709),
+	help   : fixedFromCharCode(0xe704),
+	logout : fixedFromCharCode(0xe741),
+	reload : fixedFromCharCode(0xe760),
+	road   : fixedFromCharCode(0xe78f),
+	equal  : fixedFromCharCode(0xe795),
+	list   : fixedFromCharCode(0xe7ad),
+	puzzle : fixedFromCharCode(0xe7b6),
+	github : fixedFromCharCode(0xf308),
+	target : fixedFromCharCode(0x1f3af),
+	toplist: fixedFromCharCode(0x1f3c6),
+	user   : fixedFromCharCode(0x1f464),
+	lamp   : fixedFromCharCode(0x1f4a1),
+	volumeoff : fixedFromCharCode(0x1f507),
+	volumedown: fixedFromCharCode(0x1f509),
+	volumeup  : fixedFromCharCode(0x1f50a)
+};
+
 var game = {
 	init: function() {	
 		// setting up physics stuff
@@ -46,10 +86,13 @@ var game = {
 			game.level.setData(level);
 
 			city.gridSize = [6, 1];
-			city.tileSize = [1240, 768];
+			city.tileSize = [1240, 1024];
 			city.tileSet = "city";
 			city.tiles = [0, 0, 0, 0, 0, 0];
 			game.city = new a2d.TileGrid(city);
+			city.tileSet = "sky";
+			city.tileSize = [1240, 900];
+			game.sky = new a2d.TileGrid(city);
 			//create physics boxes for each tile in grid
 			var tiles = game.level.getTiles(),
 				pos = new Box2D.Common.Math.b2Vec2(0, 0);
@@ -66,11 +109,34 @@ var game = {
 					}
 				}
 			}
+
+			a2d.root.push(game.sky);
 			a2d.root.push(game.city);
 			a2d.root.push(game.level);
 			game.player = new game.Player(new a2d.Position(100, 120));			
 			game.level.push(game.player);
 			a2d.resources.start.play();
+			a2d.resources.music.play(true);
+			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+			mute.on("mouseover", function() {
+				mute.set({border: { width: 5, color: "#e34500"} });
+			});
+			mute.on("mouseout", function() {
+				mute.set({border: { width: 5, color: "#000000"} });
+			});			
+			mute.on("click", function() {
+				a2d.mute = !a2d.mute;
+				if(a2d.mute) {
+					mute.text = icon.volumeoff;					
+					a2d.resources.music.stop();					
+				} else {
+					mute.text = icon.volumeup;
+					a2d.resources.music.play();
+				}
+				
+			});
+			//var mute = new a2d.Label('volume mute', { font : "21px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF" });
+			a2d.root.push(mute);
 		})
 
 		document.addEventListener("keydown", function(e) {
@@ -112,7 +178,8 @@ game.credits = {
 	game : "12 hour BBG Challenge #7",
 	title : "Dinosaur Street Freak",
 	dev : "Armen138",
-	background : "HyperFoxX (http://hyperfoxx.deviantart.com/art/City-Background-139773996)"
+	background : "HyperFoxX (http://hyperfoxx.deviantart.com/art/City-Background-139773996)",
+	music : "Beat One by Kevin MacLeod (http://freepd.com/Unclassified%20Electronic/Beat%20One)"
 };
 
 window.onload = function() {
@@ -134,6 +201,9 @@ window.onload = function() {
 				parallax = p.clone();
 				parallax.divide(new a2d.Position(2, 2));
 				game.city.offset = parallax;
+				parallax2 = parallax.clone();
+				parallax2.divide(new a2d.Position(2, 2));
+				game.sky.offset = parallax2;
 			}			
 		}
 	});
@@ -141,9 +211,11 @@ window.onload = function() {
 	a2d.load({	"dino" : "images/dinosaur.png",
 				"tiles": "images/tiles.png",
 				"meat" : "images/meat.png",
-				"city" : "images/bg.jpg",
+				"city" : "images/city.png",
+				"sky"  : "images/sky.png",
 				"blip" : "audio/Blip_Select.wav",
 				"start": "audio/Randomize.wav",
 				"coin" : "audio/Pickup_Coin.wav",
-				"jump" : "audio/Jump5.wav" });
+				"jump" : "audio/Jump5.wav",
+				"music": "audio/beat_one.mp3" });
 }
