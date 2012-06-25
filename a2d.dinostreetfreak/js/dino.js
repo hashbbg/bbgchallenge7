@@ -117,7 +117,7 @@ var game = {
 			game.level.push(game.player);
 			a2d.resources.start.play();
 			a2d.resources.music.play(true);
-			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });		
 			mute.on("mouseover", function() {
 				mute.set({border: { width: 5, color: "#e34500"} });
 			});
@@ -207,7 +207,15 @@ window.onload = function() {
 			}			
 		}
 	});
-
+	var loading = new a2d.Label("loading...", { font : "72px fearless", position: new a2d.Position( a2d.dimension.Width / 2, a2d.dimension.Height / 2), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+    a2d.on("progress", function(progress) {
+    	var pct = (100.0 / progress.total) * progress.loaded;
+    	loading.text = "loading ["  +  pct + "%]";
+    });
+    a2d.on("load", function() {
+    	a2d.root.remove(loading);
+    });
+	a2d.root.push(loading);
 	a2d.load({	"dino" : "images/dinosaur.png",
 				"tiles": "images/tiles.png",
 				"meat" : "images/meat.png",
