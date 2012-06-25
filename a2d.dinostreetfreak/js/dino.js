@@ -7,8 +7,7 @@ Box2D.Common.Math.b2Vec2.prototype.__defineSetter__("Y", function(y) { this.y = 
 function fixedFromCharCode (codePt) {  
     if (codePt > 0xFFFF) {  
         codePt -= 0x10000;  
-        return String.fromCharCode(0xD800 + (codePt >> 10), 0xDC00 +  
-(codePt & 0x3FF));  
+        return String.fromCharCode(0xD800 + (codePt >> 10), 0xDC00 +  (codePt & 0x3FF));  
     }  
     else {  
         return String.fromCharCode(codePt);  
@@ -45,11 +44,12 @@ var icon = {
 };
 
 var game = {
+	humans: 0,
 	init: function() {	
 		// setting up physics stuff
 		var fixDef = new Box2D.Dynamics.b2FixtureDef,
 			bodyDef = new Box2D.Dynamics.b2BodyDef;
-		game.world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 10), true);
+		game.world = new Box2D.Dynamics.b2World(new Box2D.Common.Math.b2Vec2(0, 5), true);
 		fixDef.density = 1.0;
 		fixDef.friction = 0.5;
 		fixDef.restitution = 0.2;
@@ -69,6 +69,7 @@ var game = {
 					if(lines[y].length > x) {
 						level.tiles.push(lines[y][x] === "-" ? 0 : -1);
 						if(lines[y][x] === 'h') {
+							game.humans++;
 							//level.tiles[level.tiles.length -1].meat = true;							
 							game.level.push(new game.Meat(new a2d.Position(x * 64 + parseInt(64 / 2, 10), y * 64 + parseInt(64 / 2, 10))));
 						}						
@@ -117,7 +118,20 @@ var game = {
 			game.level.push(game.player);
 			a2d.resources.start.play();
 			a2d.resources.music.play(true);
-			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });		
+			game.lives = new a2d.Label(icon.heart, { font : "48px fontello", textAlign: "left", position: new a2d.Position( 50, 50 ), color: "#FF4444", border: { width: 5, color: "#000000"} });		
+
+			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 120, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });		
+			var gh = new a2d.Label(icon.github, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 50, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });					
+			var humans = new a2d.Label("humans eaten: 0/" + game.humans, { font : "48px fearless", textAlign: "left", position: new a2d.Position( 50, 150 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+			gh.on("click", function() {
+				window.location = "https://github.com/hashbbg/bbgchallenge7";
+			});		
+			gh.on("mouseover", function() {
+				gh.set({border: { width: 5, color: "#e34500"} });
+			});
+			gh.on("mouseout", function() {
+				gh.set({border: { width: 5, color: "#000000"} });
+			});					
 			mute.on("mouseover", function() {
 				mute.set({border: { width: 5, color: "#e34500"} });
 			});
@@ -137,6 +151,10 @@ var game = {
 			});
 			//var mute = new a2d.Label('volume mute', { font : "21px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF" });
 			a2d.root.push(mute);
+			a2d.root.push(gh);
+			a2d.root.push(game.lives);
+			a2d.root.push(humans);
+			game.updateLives();
 		})
 
 		document.addEventListener("keydown", function(e) {
@@ -155,12 +173,18 @@ var game = {
 		});
 
 		document.addEventListener("keyup", function() {			
-			game.player.stop();
+			//game.player.stop();
 		});		
 		/*a2d.canvas.addEventListener("click", function(e) {
 		game.level.push(new game.Player(new a2d.Position(e.clientX, e.clientY)));
 		})*/
 		
+	},
+	updateLives: function() {
+		game.lives.text = "";
+		for(var i = 0; i < game.player.lives; i++) {
+			game.lives.text += icon.heart + " ";
+		}
 	},
 	get: function(datafile, cb) {
 		var xhr = new XMLHttpRequest();
