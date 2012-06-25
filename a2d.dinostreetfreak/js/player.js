@@ -29,9 +29,29 @@ game.Player = function(pos) {
 	this.fps = 4;
 
 	this.lives = 5;
+	this.eat = function() {		
+		var contacts = body.GetContactList();
+    	while(contacts) {
+    		var fixa = contacts.contact.GetFixtureA(),
+    			fixb = contacts.contact.GetFixtureB();
+    		if(contacts.contact.IsTouching()) {
+	    		if(fixa.m_userData !== self) {
+	    			userData = fixa.m_userData;
+	    		} else {
+	    			userData = fixb.m_userData;	    			
+	    		}
+    			if(userData && userData.meat) {
+    				game.level.remove(game.level.indexOf(userData.die()));
+    				game.humans--;
+    				game.humansLabel.text = "humans eaten: " + (14 - game.humans) + "/14";
+    			}	    		
+	    	}
+    		contacts = contacts.next;
+    	}
+	}
 	this.isGrounded = function() {
-		var cl = body.GetContactList();	
-		return cl != null;
+		var cl = body.GetContactList();
+		return cl !== null;
 	};
 
 	this.draw = function() {
@@ -48,6 +68,7 @@ game.Player = function(pos) {
 		}
 		//this.angle = body.GetAngle();
 		$draw();
+		self.eat();
 		//console.log(self.tile);
 	};
 

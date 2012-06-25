@@ -122,7 +122,7 @@ var game = {
 
 			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 120, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });		
 			var gh = new a2d.Label(icon.github, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 50, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });					
-			var humans = new a2d.Label("humans eaten: 0/" + game.humans, { font : "48px fearless", textAlign: "left", position: new a2d.Position( 50, 150 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+			game.humansLabel = new a2d.Label("humans eaten: 0/" + game.humans, { font : "48px fearless", textAlign: "left", position: new a2d.Position( 50, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
 			gh.on("click", function() {
 				window.location = "https://github.com/hashbbg/bbgchallenge7";
 			});		
@@ -153,7 +153,7 @@ var game = {
 			a2d.root.push(mute);
 			a2d.root.push(gh);
 			a2d.root.push(game.lives);
-			a2d.root.push(humans);
+			a2d.root.push(game.humansLabel);
 			game.updateLives();
 		})
 
@@ -202,8 +202,11 @@ game.credits = {
 	game : "12 hour BBG Challenge #7",
 	title : "Dinosaur Street Freak",
 	dev : "Armen138",
+	graphics : "Arme138",
+	physics : "Box2D",
 	background : "HyperFoxX (http://hyperfoxx.deviantart.com/art/City-Background-139773996)",
-	music : "Beat One by Kevin MacLeod (http://freepd.com/Unclassified%20Electronic/Beat%20One)"
+	music : "Beat One by Kevin MacLeod (http://freepd.com/Unclassified%20Electronic/Beat%20One)",
+	font : "Jakob Fischer / pizzadude.dk"
 };
 
 window.onload = function() {
@@ -215,6 +218,7 @@ window.onload = function() {
 	a2d.on("draw", function() {
 		if(game.world) {
 			game.world.Step(0.12, 10, 10);
+			game.world.ClearForces();
 			if(game.player) {
 				var p = game.player.position.clone(),
 					parallax;

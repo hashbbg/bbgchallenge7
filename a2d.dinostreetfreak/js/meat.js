@@ -15,6 +15,7 @@ game.Meat = function(pos) {
 	fixDef.density = 1.0;
 	fixDef.friction = 5.0;
 	fixDef.restitution = 0.2;	
+	fixDef.userData = this;
 	bodyDef.type = Box2D.Dynamics.b2Body.b2_dynamicBody;
 	fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape;
 	fixDef.shape.SetAsBox(1.5, 1.5);	
@@ -25,8 +26,15 @@ game.Meat = function(pos) {
 
 	this.position = pos;
 
+	this.meat = true;
+	
 	this.draw = function() {
 		this.position = body.GetPosition();
 		$draw();
+	};
+
+	this.die = function () {
+		game.world.DestroyBody(body);
+		return self;
 	};
 };
