@@ -44,6 +44,7 @@ var icon = {
 };
 
 var game = {
+	state : "intro",
 	humans: 0,
 	init: function() {	
 		// setting up physics stuff
@@ -150,26 +151,45 @@ var game = {
 				
 			});
 			//var mute = new a2d.Label('volume mute', { font : "21px fontello", position: new a2d.Position( 100, 100 ), color: "#FFFFFF" });
+			game.intro = new a2d.Tile(a2d.resources.dialog);
+			game.intro.position.X = a2d.dimension.Width / 2;
+			game.intro.position.Y = a2d.dimension.Height / 2;
+			game.intro.push(new a2d.Label("Dinosaur Street Freak", { font : "38px fearless", textAlign: "center", position: new a2d.Position( 0, -220 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("You know what I hate? Taking a 65 million", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -160 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("year nap, only to discover the entire", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -140 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("planet has been infested with pesky", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -120 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("humans when I wake up.", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("There is only one thing to do:", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -80 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.intro.push(new a2d.Label("eat them all!", { font : "48px fearless", textAlign: "center", position: new a2d.Position( 0, 0 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			
+			 
+			game.intro.push(new a2d.Label("press any key to start", { font : "32px fearless", textAlign: "center", position: new a2d.Position( 0, 200 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
 			a2d.root.push(mute);
 			a2d.root.push(gh);
 			a2d.root.push(game.lives);
 			a2d.root.push(game.humansLabel);
+			a2d.root.push(game.intro);
 			game.updateLives();
 		})
 
 		document.addEventListener("keydown", function(e) {
 			//game.player.right = true;
-			switch(e.keyCode) {
-				case a2d.key.ARROW_LEFT:
-					game.player.left();
-				break;
-				case a2d.key.ARROW_RIGHT:
-					game.player.right();
-				break
-				case a2d.key.SPACE:
-					game.player.jump();
-				break;
-			}			 			
+			if(game.state === "play") {
+				switch(e.keyCode) {
+					case a2d.key.ARROW_LEFT:
+						game.player.left();
+					break;
+					case a2d.key.ARROW_RIGHT:
+						game.player.right();
+					break
+					case a2d.key.SPACE:
+						game.player.jump();
+					break;
+				}			 			
+			} else {
+				a2d.root.remove(a2d.root.indexOf(game.intro));
+				game.state = "play";
+			}
 		});
 
 		document.addEventListener("keyup", function() {			
@@ -257,11 +277,12 @@ window.onload = function() {
 				"sky"  : "images/sky.png",
 				"grenade" : "images/grenade.png",
 				"explosion" : "images/explosion.png",
+				"dialog" : "images/intro.png",
 				"explode" : "audio/Explosion13.wav",
 				"blip" : "audio/Blip_Select.wav",
 				"start": "audio/Randomize.wav",
 				"coin" : "audio/Pickup_Coin.wav",
 				"jump" : "audio/Jump5.wav",
-				"shoot" : "audio/Laser_Shoot12.wav",
+				"shoot" : "audio/Laser_Shoot12.wav",				
 				"music": "audio/beat_one.mp3" });
 }
