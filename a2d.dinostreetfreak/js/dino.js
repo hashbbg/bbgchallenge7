@@ -169,7 +169,7 @@ var game = {
 				case a2d.key.SPACE:
 					game.player.jump();
 				break;
-			}						
+			}			 			
 		});
 
 		document.addEventListener("keyup", function() {			
@@ -224,7 +224,13 @@ window.onload = function() {
 					parallax;
 				p.X -= a2d.dimension.Width / 2;
 				p.Y -= a2d.dimension.Height / 2;
-				p.scale(new a2d.Position(-1, -1));				
+				p.scale(new a2d.Position(-1, -1));
+				if(p.X > 0) {
+					p.X = 0;
+				}
+				if(p.X < -game.level.getWidth() * 64 + a2d.dimension.Width) {
+					p.X = -game.level.getWidth() * 64 + a2d.dimension.Width;
+				}
 				game.level.offset = p;
 				parallax = p.clone();
 				parallax.divide(new a2d.Position(2, 2));
