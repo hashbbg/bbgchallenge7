@@ -20,6 +20,7 @@ game.Player = function(pos) {
 	//fixDef.shape = new Box2D.Collision.Shapes.b2PolygonShape;
 	//fixDef.shape.SetAsBox(3.0, 3.0);
 	fixDef.shape = new Box2D.Collision.Shapes.b2CircleShape(3.0);
+	fixDef.userData = this;
 	bodyDef.position.Set(pPos.x, pPos.y);
 	bodyDef.allowSleep = false;
 	body = game.world.CreateBody(bodyDef);
@@ -40,11 +41,20 @@ game.Player = function(pos) {
 	    		} else {
 	    			userData = fixb.m_userData;	    			
 	    		}
-    			if(userData && userData.meat) {
-    				game.level.remove(game.level.indexOf(userData.die()));
-    				game.humans--;
-    				game.humansLabel.text = "humans eaten: " + (14 - game.humans) + "/14";
-    			}	    		
+    			if(userData) {
+    				if (userData.meat) {
+	    				game.level.remove(game.level.indexOf(userData.die()));
+	    				game.humans--;
+	    				game.humansLabel.text = "humans eaten: " + (14 - game.humans) + "/14";
+	    				a2d.resources.coin.play();
+    				}
+    				if (userData.grenade) {
+	    				userData.die();	    				
+	    				self.lives--;
+	    				game.updateLives();
+    				}
+
+    			} 	    		
 	    	}
     		contacts = contacts.next;
     	}

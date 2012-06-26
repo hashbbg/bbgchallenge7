@@ -238,7 +238,7 @@ window.onload = function() {
 	var loading = new a2d.Label("loading...", { font : "72px fearless", position: new a2d.Position( a2d.dimension.Width / 2, a2d.dimension.Height / 2), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
     a2d.on("progress", function(progress) {
     	var pct = (100.0 / progress.total) * progress.loaded;
-    	loading.text = "loading ["  +  pct + "%]";
+    	loading.text = "loading ["  +  parseInt(pct, 10) + "%]";
     });
     a2d.on("load", function() {
     	a2d.root.remove(loading);
@@ -249,9 +249,13 @@ window.onload = function() {
 				"meat" : "images/meat.png",
 				"city" : "images/city.png",
 				"sky"  : "images/sky.png",
+				"grenade" : "images/grenade.png",
+				"explosion" : "images/explosion.png",
+				"explode" : "audio/Explosion13.wav",
 				"blip" : "audio/Blip_Select.wav",
 				"start": "audio/Randomize.wav",
 				"coin" : "audio/Pickup_Coin.wav",
 				"jump" : "audio/Jump5.wav",
+				"shoot" : "audio/Laser_Shoot12.wav",
 				"music": "audio/beat_one.mp3" });
 }
