@@ -278,11 +278,11 @@ window.onload = function() {
 				"grenade" : "images/grenade.png",
 				"explosion" : "images/explosion.png",
 				"dialog" : "images/intro.png",
-				"explode" : "audio/Explosion13.wav",
-				"blip" : "audio/Blip_Select.wav",
-				"start": "audio/Randomize.wav",
-				"coin" : "audio/Pickup_Coin.wav",
-				"jump" : "audio/Jump5.wav",
-				"shoot" : "audio/Laser_Shoot12.wav",				
+				"explode" : "audio/Explosion13.ogg",
+				"blip" : "audio/Blip_Select.ogg",
+				"start": "audio/Randomize.ogg",
+				"coin" : "audio/Pickup_Coin.ogg",
+				"jump" : "audio/Jump5.ogg",
+				"shoot" : "audio/Laser_Shoot12.ogg",				
 				"music": "audio/beat_one.ogg" });
 }
