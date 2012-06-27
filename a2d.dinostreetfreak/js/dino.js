@@ -284,5 +284,5 @@ window.onload = function() {
 				"coin" : "audio/Pickup_Coin.wav",
 				"jump" : "audio/Jump5.wav",
 				"shoot" : "audio/Laser_Shoot12.wav",				
-				"music": "audio/beat_one.mp3" });
+				"music": "audio/beat_one.ogg" });
 }
