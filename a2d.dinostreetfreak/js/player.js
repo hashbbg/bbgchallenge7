@@ -79,19 +79,29 @@ game.Player = function(pos) {
 		//this.angle = body.GetAngle();
 		$draw();
 		self.eat();
+		self.move();
 		//console.log(self.tile);
+	};
+
+	this.move = function() {
+		if(this.left) {
+			body.m_linearVelocity.x = -10;
+		}
+		if(this.right) {
+			body.m_linearVelocity.x = 10;	
+		}
 	};
 
 	this.jump = function() {
 		//body.SetLinearVelocity(new Box2D.Common.Math.b2Vec2(0, 0));
 		if(self.isGrounded()) {			
-			var f = new Box2D.Common.Math.b2Vec2(0, -500),
+			var f = new Box2D.Common.Math.b2Vec2(0, -15),
 				v = body.GetLinearVelocity();
-			if(v.x < 0) { 
+			/*if(v.x < 0) { 
 				f.x = -100; 
 			} else if(v.x > 0) {
 				f.x = 100;
-			}
+			}*/
 			console.log(f);
 			//f.x = v.x * 100;
 			body.ApplyImpulse(f, body.GetPosition());
@@ -99,6 +109,7 @@ game.Player = function(pos) {
 		}
 	};
 
+/*
 	this.left = function() {
 		if(self.isGrounded()) {
 			var f = new Box2D.Common.Math.b2Vec2(-10, 0);	
@@ -118,4 +129,5 @@ game.Player = function(pos) {
 		}
 		//body.ApplyImpulse(f, body.GetPosition());
 	};	
+	*/
 };

@@ -195,10 +195,10 @@ var game = {
 				case "play":
 					switch(e.keyCode) {
 						case a2d.key.ARROW_LEFT:
-							game.player.left();
+							game.player.left = true;
 						break;
 						case a2d.key.ARROW_RIGHT:
-							game.player.right();
+							game.player.right = true;
 						break
 						case a2d.key.SPACE:
 							game.player.jump();
@@ -223,8 +223,22 @@ var game = {
 			}
 		});
 
-		document.addEventListener("keyup", function() {			
-			//game.player.stop();
+		document.addEventListener("keyup", function(e) {			
+			switch(game.state) {
+				case "play":
+					switch(e.keyCode) {
+						case a2d.key.ARROW_LEFT:
+							game.player.left = false;
+						break;
+						case a2d.key.ARROW_RIGHT:
+							game.player.right = false;
+						break
+						case a2d.key.SPACE:
+							game.player.jump();
+						break;
+					}
+				break;
+			}
 		});		
 		/*a2d.canvas.addEventListener("click", function(e) {
 		game.level.push(new game.Player(new a2d.Position(e.clientX, e.clientY)));
