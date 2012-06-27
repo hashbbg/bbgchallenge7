@@ -47,6 +47,7 @@ var game = {
 	state : "intro",
 	humans: 0,
 	init: function() {	
+		game.state = "intro";		
 		// setting up physics stuff
 		var fixDef = new Box2D.Dynamics.b2FixtureDef,
 			bodyDef = new Box2D.Dynamics.b2BodyDef;
@@ -161,9 +162,25 @@ var game = {
 			game.intro.push(new a2d.Label("humans when I wake up.", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
 			game.intro.push(new a2d.Label("There is only one thing to do:", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -80 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
 			game.intro.push(new a2d.Label("eat them all!", { font : "48px fearless", textAlign: "center", position: new a2d.Position( 0, 0 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
-			
-			 
 			game.intro.push(new a2d.Label("press any key to start", { font : "32px fearless", textAlign: "center", position: new a2d.Position( 0, 200 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+
+			game.win = new a2d.Tile(a2d.resources.dialog);
+			game.win.position.X = a2d.dimension.Width / 2;
+			game.win.position.Y = a2d.dimension.Height / 2;
+			game.win.push(new a2d.Label("Victory!", { font : "38px fearless", textAlign: "center", position: new a2d.Position( 0, -220 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.win.push(new a2d.Label("Oh joy, the peace, the quiet, I think", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -160 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.win.push(new a2d.Label("I might just take a nap!", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -140 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.win.push(new a2d.Label("press ENTER to restart", { font : "32px fearless", textAlign: "center", position: new a2d.Position( 0, 200 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+
+			game.lose = new a2d.Tile(a2d.resources.dialog);
+			game.lose.position.X = a2d.dimension.Width / 2;
+			game.lose.position.Y = a2d.dimension.Height / 2;
+			game.lose.push(new a2d.Label("Oh No!", { font : "38px fearless", textAlign: "center", position: new a2d.Position( 0, -220 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.lose.push(new a2d.Label("Those pesky humans are still", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -160 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.lose.push(new a2d.Label("Everywhere! and what's worse:", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -140 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.lose.push(new a2d.Label("You are now officially extinct!", { font : "24px fearless", textAlign: "left", position: new a2d.Position( -230, -100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+			game.lose.push(new a2d.Label("press ENTER to restart", { font : "32px fearless", textAlign: "center", position: new a2d.Position( 0, 200 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} }));
+
 			a2d.root.push(mute);
 			a2d.root.push(gh);
 			a2d.root.push(game.lives);
@@ -174,21 +191,35 @@ var game = {
 
 		document.addEventListener("keydown", function(e) {
 			//game.player.right = true;
-			if(game.state === "play") {
-				switch(e.keyCode) {
-					case a2d.key.ARROW_LEFT:
-						game.player.left();
-					break;
-					case a2d.key.ARROW_RIGHT:
-						game.player.right();
-					break
-					case a2d.key.SPACE:
-						game.player.jump();
-					break;
-				}			 			
-			} else {
-				a2d.root.remove(a2d.root.indexOf(game.intro));
-				game.state = "play";
+			switch(game.state) {
+				case "play":
+					switch(e.keyCode) {
+						case a2d.key.ARROW_LEFT:
+							game.player.left();
+						break;
+						case a2d.key.ARROW_RIGHT:
+							game.player.right();
+						break
+						case a2d.key.SPACE:
+							game.player.jump();
+						break;
+					}
+				break;
+				case "intro": 
+					a2d.root.remove(a2d.root.indexOf(game.intro));
+					game.state = "play";				
+				break;
+				default:
+					//a2d.root.remove(a2d.root.indexOf(game.win));
+					//a2d.root.remove(a2d.root.indexOf(game.lose));
+					if(e.keyCode == a2d.key.ENTER) {
+						a2d.root.length = 0;
+						game.state = "intro";
+						game.init();
+					}
+
+					//reset
+				break;
 			}
 		});
 
@@ -258,6 +289,14 @@ window.onload = function() {
 				parallax2 = parallax.clone();
 				parallax2.divide(new a2d.Position(2, 2));
 				game.sky.offset = parallax2;
+				if(game.humans === 0) {
+					a2d.root.push(game.win);
+					game.state = "win";
+				}
+				if(game.player.lives === 0) {
+					a2d.root.push(game.lose) 
+					game.state = "lose";
+				}
 			}			
 		}
 	});
