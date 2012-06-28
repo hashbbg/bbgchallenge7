@@ -1,0 +1,11 @@
+{
+	"width": 50,
+	"height": 24,
+	"fileName": "carGreenSS",
+	"animations": [
+		{
+			"name": "float",
+			"nFrames": 18
+		},
+	]
+}

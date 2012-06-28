@@ -1,0 +1,11 @@
+{
+	"width": 105,
+	"height": 90,
+	"fileName": "explosionSideWaySS",
+	"animations": [
+		{
+			"name": "boom",
+			"nFrames": 10
+		}
+	]
+}

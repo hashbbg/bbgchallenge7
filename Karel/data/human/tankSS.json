@@ -1,0 +1,11 @@
+{
+	"width": 80,
+	"height": 55,
+	"fileName": "tankSS",
+	"animations": [
+		{
+			"name": "float",
+			"nFrames": 9
+		}
+	]
+}

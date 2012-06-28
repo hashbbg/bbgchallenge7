@@ -1,0 +1,48 @@
+
+
+3. collision functions karel
+
+
+
+AI:
+---
+game.dino.getLoc()
+game.dino.getSize()
+
+civilian:
+.update(); -> pas eigen locatie aan
+.getCollisionShape()
+.getDamage();
+.handleDamage(); -> blood animation als health the laag
+ - wandel: goto punt X, wait, goto punt Y
+ - panic: vanaf te dicht bij dino, veel sneller rondlopen
+
+tanks:
+  vanaf dino te dicht, start shooting
+
+flying cars:
+  zoals civilians maar dan in 2D
+
+choppers:
+  Zoals tanks maar in de lucht
+  civilians
+
+Projectiles:
+-----------
+
+Particles:
+----------
+speedX speedY, rotate
+
+Animation: API:
+---------------
+Rotate toevoegen
+
+COLLISION API:
+--------------
+game -> this.buildings
+game -> this.projectiles -> aangeroepen door karel bij laser eyes, in main loop checken
+game -> this.objects
+=> getCollisionShape() : topLeft, bottomRight
+=> getDamage()
+=> handleDamage()
