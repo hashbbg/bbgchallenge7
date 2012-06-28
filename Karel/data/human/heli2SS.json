@@ -1,0 +1,11 @@
+{
+	"width": 125,
+	"height": 75,
+	"fileName": "heli2SS",
+	"animations": [
+		{
+			"name": "float",
+			"nFrames": 9
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"width": 25,
+	"height": 21,
+	"fileName": "human/civilian4SS",
+	"animations": [
+		{
+			"name": "stand",
+			"nFrames": 1
+		},
+		{
+			"name": "walk",
+			"nFrames": 5
+		},
+		{
+			"name": "run",
+			"nFrames": 3
+		}
+	]
+}

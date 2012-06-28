@@ -1,0 +1,11 @@
+{
+	"width": 25,
+	"height": 22,
+	"fileName": "debris/bloodSausage2SS",
+	"animations": [
+		{
+			"name": "boom",
+			"nFrames": 6
+		}
+	]
+}
