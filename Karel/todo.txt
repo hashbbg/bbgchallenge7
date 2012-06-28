@@ -1,0 +1,6 @@
+TODO:
+- projectiles vs choppers/tanks/civilians?
+- bijten op choppers/tanks
+- eerste laser shoot fixen
+- balanceren van spawn
+* civilian toevoegen

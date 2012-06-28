@@ -1,0 +1,11 @@
+{
+	"width": 150,
+	"height": 150,
+	"fileName": "explosionSS",
+	"animations": [
+		{
+			"name": "boom",
+			"nFrames": 14
+		}
+	]
+}

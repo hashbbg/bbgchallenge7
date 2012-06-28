@@ -1,0 +1,11 @@
+{
+	"width": 140,
+	"height": 150,
+	"fileName": "bloodSausageSS.png",
+	"animations": [
+		{
+			"name": "boom",
+			"nFrames": 21
+		}
+	]
+}
