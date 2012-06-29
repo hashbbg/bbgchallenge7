@@ -212,7 +212,7 @@ states.game = {
 
 			var mute = new a2d.Label(icon.volumeup, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 120, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });		
 			var gh = new a2d.Label(icon.github, { font : "48px fontello", position: new a2d.Position( a2d.dimension.Width - 50, 50 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });					
-			game.humansLabel = new a2d.Label("humans eaten: 0/" + game.humans, { font : "48px fearless", textAlign: "left", position: new a2d.Position( 50, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
+			game.humansLabel = new a2d.Label("humans eaten: 0/" + game.humans, { font : "32px fearless", textAlign: "left", position: new a2d.Position( 50, 100 ), color: "#FFFFFF", border: { width: 5, color: "#000000"} });
 			gh.on("click", function() {
 				window.location = "https://github.com/hashbbg/bbgchallenge7";
 			});		
@@ -355,7 +355,7 @@ window.onload = function() {
 		//game.init();
 		states.set(states.intro);
 	});
-
+	game.touchies = {};
 	document.addEventListener("touchstart", function(e) {
 		var touch = e.touches[0];
 		if(states.current && states.current.keydown) {
@@ -364,20 +364,30 @@ window.onload = function() {
 			} else {
 				states.current.keydown(a2d.key.ARROW_LEFT);
 			}
-			game.touchy = touch.pageY;
+			game.touchies[touch.identifier] = touch.pageY;
+			//game.touchy = touch.pageY;
 		}
 	});
 
 	document.addEventListener("touchend", function(e) {
 		var touch = e.changedTouches[0];
-		if(states.current && states.current.keydown) {
+		if(states.current && states.current.keyup) {
 			if(touch.pageX > a2d.dimension.Width / 2) {
 				states.current.keyup(a2d.key.ARROW_RIGHT);
 			} else {
 				states.current.keyup(a2d.key.ARROW_LEFT);
-			}
-			if(game.touchy && game.touchy < touch.pageY - 30) {
-				states.current.keyup(a2d.key.SPACE);
+			}/*
+			if(game.touchies[touch.identifier] && game.touchies[touch.identifier] < touch.pageY - 30) {
+				states.current.keydown(a2d.key.SPACE);
+			}*/
+		}
+	});
+
+	document.addEventListener("touchmove", function(e) {
+		var touch = e.changedTouches[0];
+		if(states.current && states.current.keydown) {
+			if(game.touchies[touch.identifier] && game.touchies[touch.identifier] > touch.pageY + 30) {
+				states.current.keydown(a2d.key.SPACE);
 			}
 		}
 	});
