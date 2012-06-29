@@ -86,9 +86,11 @@ game.Player = function(pos) {
 	this.move = function() {
 		if(this.left) {
 			body.m_linearVelocity.x = -10;
+			self.scale.X = -1.0;
 		}
 		if(this.right) {
 			body.m_linearVelocity.x = 10;	
+			self.scale.X = 1.0;
 		}
 	};
 
@@ -97,37 +99,8 @@ game.Player = function(pos) {
 		if(self.isGrounded()) {			
 			var f = new Box2D.Common.Math.b2Vec2(0, -15),
 				v = body.GetLinearVelocity();
-			/*if(v.x < 0) { 
-				f.x = -100; 
-			} else if(v.x > 0) {
-				f.x = 100;
-			}*/
-			console.log(f);
-			//f.x = v.x * 100;
 			body.ApplyImpulse(f, body.GetPosition());
 			a2d.resources.jump.play();
 		}
 	};
-
-/*
-	this.left = function() {
-		if(self.isGrounded()) {
-			var f = new Box2D.Common.Math.b2Vec2(-10, 0);	
-			body.SetLinearVelocity(f);
-			//self.frameLoop(walkcycle, true);
-			self.scale.X = -1.0;
-		}		
-		//body.ApplyImpulse(f, body.GetPosition());
-	};
-	this.right = function() {
-		if(self.isGrounded()) {
-			var f = new Box2D.Common.Math.b2Vec2(10, 0);			
-			body.SetLinearVelocity(f);
-			//self.frameLoop(walkcycle, true);		
-			self.scale.X = 1.0;
-			//self.setTile(3);
-		}
-		//body.ApplyImpulse(f, body.GetPosition());
-	};	
-	*/
 };
