@@ -274,7 +274,7 @@ states.game = {
 				game.player.right = false;
 			break
 		}
-	},
+	},	
 	clear : function () {
 		a2d.root.remove(a2d.root.indexOf(game.scene));
 		game.scene.length = 0;
@@ -354,6 +354,32 @@ window.onload = function() {
 	a2d.on("load", function() {
 		//game.init();
 		states.set(states.intro);
+	});
+
+	document.addEventListener("touchstart", function(e) {
+		var touch = e.touches[0];
+		if(states.current && states.current.keydown) {
+			if(touch.pageX > a2d.dimension.Width / 2) {
+				states.current.keydown(a2d.key.ARROW_RIGHT);
+			} else {
+				states.current.keydown(a2d.key.ARROW_LEFT);
+			}
+			game.touchy = touch.pageY;
+		}
+	});
+
+	document.addEventListener("touchend", function(e) {
+		var touch = e.touches[0];
+		if(states.current && states.current.keydown) {
+			if(touch.pageX > a2d.dimension.Width / 2) {
+				states.current.keyup(a2d.key.ARROW_RIGHT);
+			} else {
+				states.current.keyup(a2d.key.ARROW_LEFT);
+			}
+			if(touchy < touch.pageY - 30) {
+				states.current.keyup(a2d.key.SPACE);
+			}
+		}
 	});
 
 	document.addEventListener("keydown", function(e) {
