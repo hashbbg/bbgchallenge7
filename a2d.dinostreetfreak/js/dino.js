@@ -369,14 +369,14 @@ window.onload = function() {
 	});
 
 	document.addEventListener("touchend", function(e) {
-		var touch = e.touches[0];
+		var touch = e.changedTouches[0];
 		if(states.current && states.current.keydown) {
 			if(touch.pageX > a2d.dimension.Width / 2) {
 				states.current.keyup(a2d.key.ARROW_RIGHT);
 			} else {
 				states.current.keyup(a2d.key.ARROW_LEFT);
 			}
-			if(touchy < touch.pageY - 30) {
+			if(game.touchy && game.touchy < touch.pageY - 30) {
 				states.current.keyup(a2d.key.SPACE);
 			}
 		}
